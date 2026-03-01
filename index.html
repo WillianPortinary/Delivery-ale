@@ -5,126 +5,173 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Delivery da Alê</title>
 
+ 
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
   <style>
     :root {
-      --marrom: #4a2a1a;
-      --vermelho: #b22222;
-      --dourado: #f5c16c;
-      --claro: #f7f2ed;
+      --marrom: #3b1f14;
+      --vermelho: #c0392b;
+      --dourado: #f1c40f;
+      --claro: #f7f3ef;
     }
 
     * {
       box-sizing: border-box;
-      font-family: Arial, Helvetica, sans-serif;
+      font-family: 'Poppins', sans-serif;
     }
 
     body {
       margin: 0;
-      background: url("img/fundo.jpg") center/cover no-repeat;
+      background: linear-gradient(rgba(0,0,0,.55), rgba(0,0,0,.55)), url("img/fundo.jpg") center/cover fixed no-repeat;
       color: #333;
     }
 
     header {
-      background: linear-gradient(135deg, var(--marrom), #2b150c);
-      color: #fff;
-      padding: 20px;
+      min-height: 70vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
       text-align: center;
+      padding: 40px 20px;
+      background: linear-gradient(rgba(0,0,0,.65), rgba(0,0,0,.65));
     }
 
     header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.2rem;
       margin: 0;
-      font-size: 2.2rem;
       color: var(--dourado);
+      letter-spacing: 2px;
     }
 
     header p {
-      margin: 5px 0;
+      font-size: 1.1rem;
+      margin-top: 10px;
+      color: #fff;
+      max-width: 500px;
+    }
+
+    .cta {
+      margin-top: 25px;
+      padding: 12px 28px;
+      background: var(--vermelho);
+      color: #fff;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+
+    .cta:hover {
+      transform: scale(1.05);
+      background: #a93226;
     }
 
     .info {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 10px;
-      background: rgba(0,0,0,0.6);
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      background: rgba(0,0,0,.85);
       color: #fff;
-      padding: 15px;
+      padding: 20px;
       text-align: center;
+      font-size: .9rem;
     }
 
     .container {
-      max-width: 1100px;
-      margin: auto;
-      background: rgba(255,255,255,0.95);
-      padding: 20px;
+      max-width: 1200px;
+      margin: 40px auto;
+      background: rgba(255,255,255,.96);
+      border-radius: 20px;
+      padding: 30px 20px 40px;
+      box-shadow: 0 10px 25px rgba(0,0,0,.3);
     }
 
     h2 {
       text-align: center;
+      font-size: 2.2rem;
       color: var(--vermelho);
+      margin-bottom: 25px;
     }
 
     .cardapio {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 15px;
+      gap: 22px;
     }
 
     .item {
-      border: 2px solid var(--marrom);
-      border-radius: 10px;
-      overflow: hidden;
       background: #fff;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 6px 15px rgba(0,0,0,.15);
       display: flex;
       flex-direction: column;
+      transition: .3s;
+    }
+
+    .item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0,0,0,.25);
     }
 
     .item img {
       width: 100%;
-      height: 180px;
+      height: 190px;
       object-fit: cover;
     }
 
     .item div {
-      padding: 12px;
+      padding: 15px;
       flex: 1;
     }
 
     .item h3 {
-      margin: 0;
+      margin: 0 0 6px;
       color: var(--marrom);
+      font-size: 1.2rem;
     }
 
     .item p {
-      font-size: 0.9rem;
+      margin: 3px 0;
+      font-size: .9rem;
+      color: #555;
     }
 
     .preco {
-      font-weight: bold;
+      font-weight: 600;
       font-size: 1.1rem;
       color: var(--vermelho);
+      margin-top: 8px;
     }
 
     .btn {
-      background: var(--vermelho);
-      color: #fff;
       border: none;
-      padding: 10px;
-      cursor: pointer;
-      width: 100%;
+      background: linear-gradient(135deg, var(--vermelho), #8b0000);
+      color: #fff;
+      padding: 12px;
       font-size: 1rem;
-      transition: 0.3s;
+      cursor: pointer;
+      transition: .3s;
     }
 
     .btn:hover {
-      background: #8b0000;
+      filter: brightness(1.15);
     }
 
     footer {
-      background: var(--marrom);
+      background: #2b150c;
       color: #fff;
       text-align: center;
-      padding: 15px;
-      margin-top: 30px;
+      padding: 20px 10px;
+      font-size: .9rem;
+    }
+
+    @media(max-width: 600px) {
+      header h1 { font-size: 2.4rem; }
+      header p { font-size: 1rem; }
     }
   </style>
 </head>
@@ -133,27 +180,39 @@
 
 <header>
   <h1>Delivery da Alê</h1>
-  <p>Comida caseira, sabor e qualidade</p>
+  <p>Comida caseira feita com carinho, sabor e qualidade direto para sua casa.</p>
+  <a href="#cardapio" class="cta">Ver Cardápio</a>
 </header>
 
 <section class="info">
   <div>📞 (38) 98418-0596</div>
-  <div>🕒 Sábados e Domingos • 11h às 13h e 19h às 22h</div>
-  <div>🚚 Entrega: 30 a 50 minutos</div>
-  <div>💳 Cartão • Pix • Dinheiro</div>
+  <div>🕒 Sáb • Dom • 11h às 13h | 19h às 22h</div>
+  <div>🚚 Entrega: 30 a 50 min</div>
+  <div>💳 Pix • Cartão • Dinheiro</div>
   <div>📍 Taxa: R$ 3,00</div>
+  <div>🍽️ Todos os pratos servem 1 pessoa</div>
 </section>
 
-<div class="container">
+<div class="container" id="cardapio">
   <h2>Cardápio</h2>
 
   <div class="cardapio">
 
     <div class="item">
+      <img src="img/fricasse.png">
+      <div>
+        <h3>Fricassé de Frango</h3>
+        <p>Arroz e batata palha</p>
+        <p class="preco">R$ 25,00</p>
+      </div>
+      <button class="btn" onclick="pedir('Fricassé de Frango - R$25,00')">Pedir no WhatsApp</button>
+    </div>
+
+    <div class="item">
       <img src="img/marmita1.jpg">
       <div>
         <h3>Prato Combinado</h3>
-        <p>Arroz, feijão, bife, frango ou porco, purê, batata frita e salada.</p>
+        <p>Arroz, feijão, bife, frango ou porco, purê, batata frita e salada</p>
         <p class="preco">R$ 20,00</p>
       </div>
       <button class="btn" onclick="pedir('Prato Combinado - R$20,00')">Pedir no WhatsApp</button>
@@ -163,7 +222,7 @@
       <img src="img/marmita5feijoada.jpg">
       <div>
         <h3>Feijoada Completa</h3>
-        <p>Arroz, vinagrete, farofa e laranja.</p>
+        <p>Arroz, farofa, vinagrete e laranja</p>
         <p class="preco">R$ 20,00</p>
       </div>
       <button class="btn" onclick="pedir('Feijoada Completa - R$20,00')">Pedir no WhatsApp</button>
@@ -173,7 +232,7 @@
       <img src="img/lasanha.jpg">
       <div>
         <h3>Lasanha</h3>
-        <p>Frango, carne moída, presunto e queijo.</p>
+        <p>Frango, carne moída, presunto e queijo</p>
         <p class="preco">R$ 25,00</p>
       </div>
       <button class="btn" onclick="pedir('Lasanha - R$25,00')">Pedir no WhatsApp</button>
@@ -183,7 +242,7 @@
       <img src="img/marmita7parmegiana.jpg">
       <div>
         <h3>Parmegiana</h3>
-        <p>Filé mignon ou frango, arroz, purê e batata.</p>
+        <p>Filé mignon ou frango, arroz, purê e batata</p>
         <p class="preco">R$ 30,00</p>
       </div>
       <button class="btn" onclick="pedir('Parmegiana - R$30,00')">Pedir no WhatsApp</button>
@@ -193,7 +252,7 @@
       <img src="img/marmita6strogonoff.jpg">
       <div>
         <h3>Strogonoff</h3>
-        <p>Filé mignon ou frango, arroz e batata palha.</p>
+        <p>Filé mignon ou frango, arroz e batata palha</p>
         <p class="preco">A partir de R$ 30,00</p>
       </div>
       <button class="btn" onclick="pedir('Strogonoff - a partir de R$30,00')">Pedir no WhatsApp</button>
@@ -203,7 +262,7 @@
 </div>
 
 <footer>
-  <p>© 2026 - Delivery da Alê • Feito com carinho ❤️</p>
+  <p>© 2026 - Delivery da Alê • Desenvolvido com ❤️</p>
 </footer>
 
 <script>
