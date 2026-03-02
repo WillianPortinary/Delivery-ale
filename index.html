@@ -205,7 +205,7 @@
         <p>Arroz e batata palha</p>
         <p class="preco">R$ 25,00</p>
       </div>
-      <button class="btn" onclick="pedir('Fricassé de Frango - R$25,00')">Pedir no WhatsApp</button>
+      <button class="btn" onclick="irPedido('Fricassé de Frango - R$25,00')">Pedir</button>
     </div>
 
     <div class="item">
@@ -215,7 +215,7 @@
         <p>Arroz, feijão, bife, frango ou porco, purê, batata frita e salada</p>
         <p class="preco">R$ 20,00</p>
       </div>
-      <button class="btn" onclick="pedir('Prato Combinado - R$20,00')">Pedir no WhatsApp</button>
+      <button class="btn" onclick="irPedido('Prato Combinado - R$20,00')">Pedir</button>
     </div>
 
     <div class="item">
@@ -225,7 +225,7 @@
         <p>Arroz, farofa, vinagrete e laranja</p>
         <p class="preco">R$ 20,00</p>
       </div>
-      <button class="btn" onclick="pedir('Feijoada Completa - R$20,00')">Pedir no WhatsApp</button>
+      <button class="btn" onclick="irPedido('Feijoada Completa - R$20,00')">Pedir</button>
     </div>
 
     <div class="item">
@@ -235,7 +235,7 @@
         <p>Frango, carne moída, presunto e queijo</p>
         <p class="preco">R$ 25,00</p>
       </div>
-      <button class="btn" onclick="pedir('Lasanha - R$25,00')">Pedir no WhatsApp</button>
+      <button class="btn" onclick="irPedido('Lasanha - R$25,00')">Pedir</button>
     </div>
 
     <div class="item">
@@ -245,7 +245,7 @@
         <p>Filé mignon ou frango, arroz, purê e batata</p>
         <p class="preco">R$ 30,00</p>
       </div>
-      <button class="btn" onclick="pedir('Parmegiana - R$30,00')">Pedir no WhatsApp</button>
+      <button class="btn" onclick="irPedido('Parmegiana - R$30,00')">Pedir</button>
     </div>
 
     <div class="item">
@@ -255,7 +255,7 @@
         <p>Filé mignon ou frango, arroz e batata palha</p>
         <p class="preco">A partir de R$ 30,00</p>
       </div>
-      <button class="btn" onclick="pedir('Strogonoff - a partir de R$30,00')">Pedir no WhatsApp</button>
+      <button class="btn" onclick="irPedido('Strogonoff - a partir de R$30,00')">Pedir</button>
     </div>
 
   </div>
@@ -266,26 +266,8 @@
 </footer>
 
 <script>
-  function pedir(produto) {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(function (pos) {
-        const lat = pos.coords.latitude;
-        const lon = pos.coords.longitude;
-        const mapa = `https://maps.google.com/?q=${lat},${lon}`;
-
-        const msg = `Olá! Gostaria de fazer o pedido:%0A%0A${produto}%0A%0AMinha localização: ${mapa}`;
-        window.open(`https://wa.me/5538984180596?text=${msg}`, '_blank');
-      }, function () {
-        enviarSemLocal(produto);
-      });
-    } else {
-      enviarSemLocal(produto);
-    }
-  }
-
-  function enviarSemLocal(produto) {
-    const msg = `Olá! Gostaria de fazer o pedido:%0A%0A${produto}`;
-    window.open(`https://wa.me/5538984180596?text=${msg}`, '_blank');
+  function irPedido(produto) {
+    window.location.href = `pedidos.html?produto=${encodeURIComponent(produto)}`;
   }
 </script>
 
