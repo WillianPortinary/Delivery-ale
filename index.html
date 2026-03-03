@@ -220,9 +220,9 @@
         <p>Arroz, feijão, bife, frango ou porco, purê, batata frita e salada</p>
         <p class="preco">R$ 20,00</p>
       <div class="controle">
-      <button onclick="alterar('Prato Combinado',25,-1)">-</button>
+      <button onclick="alterar('Prato Combinado',20,-1)">-</button>
       <span id="Prato Combinado">0</span>
-      <button onclick="alterar('rato Combinado',25,1)">+</button>
+      <button onclick="alterar('Prato Combinado',20,1)">+</button>
     </div>
       </div>
       
@@ -236,9 +236,9 @@
         <p>Arroz, farofa, vinagrete e laranja</p>
         <p class="preco">R$ 20,00</p>
       <div class="controle">
-      <button onclick="alterar('Feijoada Completa',25,-1)">-</button>
+      <button onclick="alterar('Feijoada Completa',20,-1)">-</button>
       <span id="Feijoada Completa">0</span>
-      <button onclick="alterar('Feijoada Completa',25,1)">+</button>
+      <button onclick="alterar('Feijoada Completa',20,1)">+</button>
     </div>
       </div>
       
@@ -266,9 +266,9 @@
         <p>Filé mignon ou frango, arroz, purê e batata</p>
         <p class="preco">R$ 30,00</p>
       <div class="controle">
-      <button onclick="alterar('Parmegiana',25,-1)">-</button>
+      <button onclick="alterar('Parmegiana',30,-1)">-</button>
       <span id="Parmegiana">0</span>
-      <button onclick="alterar('Parmegiana',25,1)">+</button>
+      <button onclick="alterar('Parmegiana',30,1)">+</button>
     </div>
       </div>
       
@@ -281,9 +281,9 @@
         <p>Filé mignon ou frango, arroz e batata palha</p>
         <p class="preco">A partir de R$ 30,00</p>
       <div class="controle">
-      <button onclick="alterar('Strogonoff',25,-1)">-</button>
+      <button onclick="alterar('Strogonoff',30,-1)">-</button>
       <span id="Strogonoff">0</span>
-      <button onclick="alterar('Strogonoff',25,1)">+</button>
+      <button onclick="alterar('Strogonoff',30,1)">+</button>
     </div>
       </div>
       
@@ -304,6 +304,16 @@ Finalizar Pedido
   }
 </script>
 <script>
+
+const produtos = [
+  {nome:"Fricassé de Frango", preco:25},
+  {nome:"Prato Combinado", preco:20},
+  {nome:"Feijoada Completa", preco:20},
+  {nome:"Lasanha", preco:25},
+  {nome:"Parmegiana", preco:30},
+  {nome:"Strogonoff", preco:30}
+];
+
 let pedido = [];
 
 function alterar(nome, preco, valor){
@@ -323,16 +333,23 @@ function alterar(nome, preco, valor){
 }
 
 function atualizarTela(){
+
   document.querySelectorAll(".controle span").forEach(span=>{
     span.innerText = 0;
   });
 
   pedido.forEach(item=>{
-    document.getElementById(item.nome).innerText = item.qtd;
+    document.querySelectorAll(".item").forEach(card=>{
+      let titulo = card.querySelector("h3").innerText;
+      if(titulo === item.nome){
+        card.querySelector(".controle span").innerText = item.qtd;
+      }
+    });
   });
 }
 
 function finalizar(){
+
   if(pedido.length === 0){
     alert("Escolha pelo menos um item!");
     return;
@@ -341,6 +358,7 @@ function finalizar(){
   localStorage.setItem("pedido", JSON.stringify(pedido));
   window.location.href = "pedidos.html";
 }
+
 </script>
 
 </body>

@@ -170,66 +170,14 @@ button:hover {
 </div>
 
 <script>
-const urlParams = new URLSearchParams(window.location.search);
-const produto = urlParams.get("produto") || "Produto não informado";
 
-document.getElementById("produtoBox").innerHTML = "🍽 " + produto;
-
-function enviarPedido() {
-
-  if (navigator.geolocation) {
-
-    navigator.geolocation.getCurrentPosition(function (pos) {
-
-      const lat = pos.coords.latitude;
-      const lon = pos.coords.longitude;
-      const mapa = `https://maps.google.com/?q=${lat},${lon}`;
-
-      montarMensagem(mapa);
-
-    }, function () {
-
-      montarMensagem('Localização não autorizada');
-
-    });
-
-  } else {
-
-    montarMensagem('Localização não suportada');
-
-  }
-}
-
-function montarMensagem(mapa) {
-
-  const produto = document.getElementById("produtoBox").innerText.replace('🍽 ', '');
-  const nome = document.getElementById("nome").value;
-  const endereco = document.getElementById("endereco").value;
-  const bairro = document.getElementById("bairro").value;
-  const pagamento = document.getElementById("pagamento").value;
-  const obs = document.getElementById("obs").value;
-
-  let msg =
-    `Olá! Gostaria de fazer um pedido:%0A%0A` +
-    `🍽 Produto: ${produto}%0A` +
-    `👤 Nome: ${nome}%0A` +
-    `🏠 Endereço: ${endereco}%0A` +
-    `📍 Bairro: ${bairro}%0A` +
-    `📌 Localização: ${mapa}%0A` +
-    `💳 Pagamento: ${pagamento}%0A` +
-    `📝 Observações: ${obs || "Nenhuma"}`;
-
-  window.open(`https://wa.me/5538984180596?text=${msg}`, "_blank");
-}
-</script>
-<script>
 const dados = JSON.parse(localStorage.getItem("pedido")) || [];
 
 let resumoHTML = "";
 let mensagemProdutos = "";
 let total = 0;
 
-dados.forEach(item=>{
+dados.forEach(item => {
   let subtotal = item.preco * item.qtd;
   total += subtotal;
 
@@ -240,7 +188,7 @@ dados.forEach(item=>{
   `;
 
   mensagemProdutos +=
-    `🍽 ${item.nome} - ${item.qtd}x - R$ ${subtotal.toFixed(2)}%0A`;
+    `🍽 ${item.nome} - ${item.qtd}x - R$ ${subtotal.toFixed(2)}\n`;
 });
 
 resumoHTML += `
@@ -251,69 +199,43 @@ resumoHTML += `
 
 document.getElementById("produtoBox").innerHTML = resumoHTML;
 
-function mostrarTroco(){
-  const pagamento = document.getElementById("pagamento").value;
-  const trocoDiv = document.getElementById("trocoDiv");
 
-  if(pagamento === "Dinheiro"){
-    trocoDiv.style.display = "block";
-  } else {
-    trocoDiv.style.display = "none";
-  }
-}
-
-function enviarPedido(){
-
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(function (pos) {
-
-      const lat = pos.coords.latitude;
-      const lon = pos.coords.longitude;
-      const mapa = `https://maps.google.com/?q=${lat},${lon}`;
-
-      montarMensagem(mapa);
-
-    }, function () {
-      montarMensagem('Localização não autorizada');
-    });
-  } else {
-    montarMensagem('Localização não suportada');
-  }
-}
-
-function montarMensagem(mapa){
+function enviarPedido() {
 
   const nome = document.getElementById("nome").value;
   const endereco = document.getElementById("endereco").value;
   const bairro = document.getElementById("bairro").value;
   const pagamento = document.getElementById("pagamento").value;
-  const precisaTroco = document.getElementById("precisaTroco").value;
-  const valorTroco = document.getElementById("valorTroco").value;
   const obs = document.getElementById("obs").value;
 
-  let msg =
-    `Olá! Gostaria de fazer um pedido:%0A%0A` +
-    mensagemProdutos +
-    `%0ATotal: R$ ${total.toFixed(2)}%0A%0A` +
-    `👤 Nome: ${nome}%0A` +
-    `🏠 Endereço: ${endereco}%0A` +
-    `📍 Bairro: ${bairro}%0A` +
-    `📌 Localização: ${mapa}%0A` +
-    `💳 Pagamento: ${pagamento}%0A`;
-
-  if(pagamento === "Dinheiro"){
-    msg += `💵 Precisa de troco: ${precisaTroco}%0A`;
-    if(precisaTroco === "Sim"){
-      msg += `Troco para: R$ ${valorTroco}%0A`;
-    }
+  if(!nome || !endereco || !bairro || !pagamento){
+    alert("Preencha todos os campos obrigatórios!");
+    return;
   }
 
-  msg += `📝 Observações: ${obs || "Nenhuma"}`;
+  let mensagem =
+`Olá! Gostaria de fazer um pedido:
 
-  window.open(`https://wa.me/5538984180596?text=${msg}`, "_blank");
+${mensagemProdutos}
+
+Total: R$ ${total.toFixed(2)}
+
+👤 Nome: ${nome}
+🏠 Endereço: ${endereco}
+📍 Bairro: ${bairro}
+💳 Pagamento: ${pagamento}
+📝 Observações: ${obs || "Nenhuma"}
+`;
+
+  let numero = "5538984180596";
+
+  let url = `https://wa.me/${numero}?text=${encodeURIComponent(mensagem)}`;
+
+  window.location.href = url;
 
   localStorage.removeItem("pedido");
 }
+
 </script>
 
 </body>
