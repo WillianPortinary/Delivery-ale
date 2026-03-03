@@ -127,8 +127,7 @@ button:hover {
 <div class="container">
 
   <div class="topo">
-    <!-- Se quiser pode colocar uma logo aqui -->
-    <!-- <img src="img/logo.png"> -->
+    
     <h2>Finalizar Pedido</h2>
   </div>
 
@@ -152,9 +151,12 @@ button:hover {
       <option>Dinheiro</option>
       <option>Cartão</option>
     </select>
+    <label>Troco</label>
+    <input type="text" id="endereco" placeholder="Digite seu troco em caso de dinheiro" required>
 
+    
     <label>Observações</label>
-    <textarea id="obs" rows="3" placeholder="Ex: sem cebola, sem sal, ponto da carne..."></textarea>
+    <textarea id="obs" rows="3" placeholder="Ex: sem cebola, sem tomate, ponto da carne..."></textarea>
 
     <button type="submit">Enviar Pedido no WhatsApp</button>
 
@@ -218,6 +220,99 @@ function montarMensagem(mapa) {
     `📝 Observações: ${obs || "Nenhuma"}`;
 
   window.open(`https://wa.me/5538984180596?text=${msg}`, "_blank");
+}
+</script>
+<script>
+const dados = JSON.parse(localStorage.getItem("pedido")) || [];
+
+let resumoHTML = "";
+let mensagemProdutos = "";
+let total = 0;
+
+dados.forEach(item=>{
+  let subtotal = item.preco * item.qtd;
+  total += subtotal;
+
+  resumoHTML += `
+    <div class="produto-box">
+      ${item.nome} - ${item.qtd}x - R$ ${subtotal.toFixed(2)}
+    </div>
+  `;
+
+  mensagemProdutos +=
+    `🍽 ${item.nome} - ${item.qtd}x - R$ ${subtotal.toFixed(2)}%0A`;
+});
+
+resumoHTML += `
+  <div class="produto-box" style="background:#ffeaa7;">
+    Total: R$ ${total.toFixed(2)}
+  </div>
+`;
+
+document.getElementById("produtoBox").innerHTML = resumoHTML;
+
+function mostrarTroco(){
+  const pagamento = document.getElementById("pagamento").value;
+  const trocoDiv = document.getElementById("trocoDiv");
+
+  if(pagamento === "Dinheiro"){
+    trocoDiv.style.display = "block";
+  } else {
+    trocoDiv.style.display = "none";
+  }
+}
+
+function enviarPedido(){
+
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function (pos) {
+
+      const lat = pos.coords.latitude;
+      const lon = pos.coords.longitude;
+      const mapa = `https://maps.google.com/?q=${lat},${lon}`;
+
+      montarMensagem(mapa);
+
+    }, function () {
+      montarMensagem('Localização não autorizada');
+    });
+  } else {
+    montarMensagem('Localização não suportada');
+  }
+}
+
+function montarMensagem(mapa){
+
+  const nome = document.getElementById("nome").value;
+  const endereco = document.getElementById("endereco").value;
+  const bairro = document.getElementById("bairro").value;
+  const pagamento = document.getElementById("pagamento").value;
+  const precisaTroco = document.getElementById("precisaTroco").value;
+  const valorTroco = document.getElementById("valorTroco").value;
+  const obs = document.getElementById("obs").value;
+
+  let msg =
+    `Olá! Gostaria de fazer um pedido:%0A%0A` +
+    mensagemProdutos +
+    `%0ATotal: R$ ${total.toFixed(2)}%0A%0A` +
+    `👤 Nome: ${nome}%0A` +
+    `🏠 Endereço: ${endereco}%0A` +
+    `📍 Bairro: ${bairro}%0A` +
+    `📌 Localização: ${mapa}%0A` +
+    `💳 Pagamento: ${pagamento}%0A`;
+
+  if(pagamento === "Dinheiro"){
+    msg += `💵 Precisa de troco: ${precisaTroco}%0A`;
+    if(precisaTroco === "Sim"){
+      msg += `Troco para: R$ ${valorTroco}%0A`;
+    }
+  }
+
+  msg += `📝 Observações: ${obs || "Nenhuma"}`;
+
+  window.open(`https://wa.me/5538984180596?text=${msg}`, "_blank");
+
+  localStorage.removeItem("pedido");
 }
 </script>
 
