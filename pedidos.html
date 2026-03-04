@@ -22,7 +22,17 @@ body {
   background: url("img/fundo.jpg") center/cover fixed no-repeat;
   min-height: 100vh;
 }
+.tipo-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
 
+.tipo-opcao {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
 .overlay {
   background: rgba(0,0,0,.6);
   min-height: 100vh;
@@ -152,9 +162,22 @@ button:hover {
       <option>Cartão</option>
     </select>
     <label>Troco</label>
-
     <input type="text" id="troco" placeholder="Digite seu troco em caso de dinheiro" required>
 
+
+<div class="tipo-container">
+
+  <div class="tipo-opcao">
+    <label for="entrega">Entrega</label>
+    <input type="radio" name="tipo" id="entrega" value="Entrega">
+  </div>
+
+  <div class="tipo-opcao">
+    <label for="retirada">Retirada</label>
+    <input type="radio" name="tipo" id="retirada" value="Retirada">
+  </div>
+
+</div>
     
     <label>Observações</label>
     <textarea id="obs" rows="3" placeholder="Ex: sem cebola, sem tomate, ponto da carne..."></textarea>
@@ -210,11 +233,31 @@ function enviarPedido() {
   const obs = document.getElementById("obs").value;
   const troco = document.getElementById("troco").value;
 
-  if(!nome || !endereco || !bairro || !pagamento || !troco){
-    alert("Preencha todos os campos obrigatórios!");
+  let tipoSelecionado = document.querySelector('input[name="tipo"]:checked');
+
+  if(!tipoSelecionado){
+    alert("Escolha Entrega ou Retirada!");
     return;
   }
 
+  let tipo = tipoSelecionado.value;
+
+  if(!nome || !pagamento){
+    alert("Preencha nome e forma de pagamento!");
+    return;
+  }
+
+  if(tipo === "Entrega" && (!endereco || !bairro)){
+    alert("Preencha endereço e bairro para entrega!");
+    return;
+  }
+
+  if(pagamento === "Dinheiro" && !troco){
+    alert("Informe o troco!");
+    return;
+  }
+
+  // 🔥 MONTA A MENSAGEM
   let mensagem =
 `Olá! Gostaria de fazer um pedido:
 
@@ -222,12 +265,12 @@ ${mensagemProdutos}
 
 Total: R$ ${total.toFixed(2)}
 
+🚚 Tipo: ${tipo}
 👤 Nome: ${nome}
-🏠 Endereço: ${endereco}
-📍 Bairro: ${bairro}
 💳 Pagamento: ${pagamento}
+💰 Troco: ${pagamento === "Dinheiro" ? troco : "Não precisa"}
+${tipo === "Entrega" ? `🏠 Endereço: ${endereco}\n📍 Bairro: ${bairro}` : "📍 Retirada no local"}
 📝 Observações: ${obs || "Nenhuma"}
-💵 Troco: ${troco}
 `;
 
   let numero = "5538984180596";
