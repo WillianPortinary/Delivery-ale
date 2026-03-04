@@ -257,8 +257,15 @@ function enviarPedido() {
     return;
   }
 
-  // 🔥 MONTA A MENSAGEM
-  let mensagem =
+ navigator.geolocation.getCurrentPosition(
+  function(pos){
+
+    let latitude = pos.coords.latitude;
+    let longitude = pos.coords.longitude;
+
+    let linkLocalizacao = `https://www.google.com/maps?q=${latitude},${longitude}`;
+
+    let mensagem =
 `Olá! Gostaria de fazer um pedido:
 
 ${mensagemProdutos}
@@ -270,16 +277,21 @@ Total: R$ ${total.toFixed(2)}
 💳 Pagamento: ${pagamento}
 💰 Troco: ${pagamento === "Dinheiro" ? troco : "Não precisa"}
 ${tipo === "Entrega" ? `🏠 Endereço: ${endereco}\n📍 Bairro: ${bairro}` : "📍 Retirada no local"}
+📌 Localização: ${linkLocalizacao}
 📝 Observações: ${obs || "Nenhuma"}
 `;
 
-  let numero = "5538984180596";
+    let numero = "5538984180596";
+    let url = `https://wa.me/${numero}?text=${encodeURIComponent(mensagem)}`;
 
-  let url = `https://wa.me/${numero}?text=${encodeURIComponent(mensagem)}`;
+    window.location.href = url;
 
-  window.location.href = url;
-
-  localStorage.removeItem("pedido");
+    localStorage.removeItem("pedido");
+  },
+  function(error){
+    alert("Não foi possível obter a localização. Verifique se permitiu o acesso.");
+  }
+);
 }
 
 </script>
