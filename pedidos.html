@@ -152,7 +152,8 @@ button:hover {
       <option>Cartão</option>
     </select>
     <label>Troco</label>
-    <input type="text" id="endereco" placeholder="Digite seu troco em caso de dinheiro" required>
+
+    <input type="text" id="troco" placeholder="Digite seu troco em caso de dinheiro" required>
 
     
     <label>Observações</label>
@@ -207,8 +208,9 @@ function enviarPedido() {
   const bairro = document.getElementById("bairro").value;
   const pagamento = document.getElementById("pagamento").value;
   const obs = document.getElementById("obs").value;
+  const troco = document.getElementById("troco").value;
 
-  if(!nome || !endereco || !bairro || !pagamento){
+  if(!nome || !endereco || !bairro || !pagamento || !troco){
     alert("Preencha todos os campos obrigatórios!");
     return;
   }
@@ -225,6 +227,7 @@ Total: R$ ${total.toFixed(2)}
 📍 Bairro: ${bairro}
 💳 Pagamento: ${pagamento}
 📝 Observações: ${obs || "Nenhuma"}
+💵 Troco: ${troco}
 `;
 
   let numero = "5538984180596";
