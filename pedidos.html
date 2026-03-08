@@ -171,8 +171,8 @@ button {
 <p id="taxaEntrega">Taxa de entrega: R$ 0.00</p>
 <h3 id="total">Total: R$ 0.00</h3>
 
-<label>Observações</label>
-<textarea id="obs" rows="3"></textarea>
+<label>Observações:</label>
+<textarea id="obs" rows="3" placeholder="Ex: Feijao caldo ou farofa, tipo de carne "></textarea>
 
 <button type="submit">Enviar Pedido no WhatsApp</button>
 
@@ -265,6 +265,13 @@ return;
 }
 
 let tipo = tipoSelecionado.value;
+let taxa = 0;
+
+if(tipo === "entrega"){
+taxa = taxaEntrega;
+}
+
+let totalFinal = totalProdutos + taxa;
 
 navigator.geolocation.getCurrentPosition(function(pos){
 
@@ -274,11 +281,13 @@ let longitude = pos.coords.longitude;
 let linkLocalizacao = `https://www.google.com/maps?q=${latitude},${longitude}`;
 
 let mensagem =
-`Olá! Gostaria de fazer um pedido:
+`Olá Alê! Gostaria de fazer o seguinte pedido:
 
 ${mensagemProdutos}
 
-Subtotal: R$ ${totalFinal.toFixed(2)}
+Subtotal: R$ ${totalProdutos.toFixed(2)}
+🚚 Taxa de entrega: R$ ${taxa.toFixed(2)}
+💵 Total: R$ ${totalFinal.toFixed(2)}
 
 🚚 Tipo: ${tipo}
 👤 Nome: ${nome}
