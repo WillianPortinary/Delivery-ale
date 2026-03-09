@@ -336,6 +336,21 @@ max-width:450px;
       
     </div>
 
+    <div class="item">
+      <img src="img/lasanhafrita.jpg">
+      <div>
+        <h3>Lasanha Frita</h3>
+        <p>Arroz, salada e batata palha.</p>
+        <p class="preco">R$ 30,00</p>
+      <div class="controle">
+      <button onclick="alterar('Lasanha Frita',30,-1)">-</button>
+      <span id="Lasanha Frita">0</span>
+      <button onclick="alterar('Lasanha Frita',30,1)">+</button>
+    </div>
+      </div>
+      
+    </div>
+
   </div>
 </div>
 <button class="btn" style="margin-top:20px;width:100%;" onclick="finalizar()">
@@ -361,7 +376,9 @@ const produtos = [
   {nome:"Parmegiana Frango", preco:30},
   {nome:"Strogonoff Frango", preco:30},
   {nome:"Strogonoff File Mignon", preco:30},
-  {nome:"Macarrao Cremoso", preco:30}
+  {nome:"Macarrao Cremoso", preco:30},
+  {nome:"Lasanha Frita", preco:30}
+
 ];
 
 let pedido = [];
